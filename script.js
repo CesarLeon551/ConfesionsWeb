@@ -48,11 +48,35 @@ if (isAdmin) {
         const confessionList = document.getElementById('confessionList');
         confessionList.innerHTML = ''; // Limpiar la lista
 
+        let confessionsArray = []; // Para almacenar las confesiones y exportarlas
+
         snapshot.forEach(function(doc) {
             const confession = doc.data().confession;
             const listItem = document.createElement('li');
             listItem.textContent = confession;
             confessionList.appendChild(listItem);
+
+            // Agregar confesión al array para exportar
+            confessionsArray.push({ confession, timestamp: doc.data().timestamp.toDate().toLocaleString() });
+        });
+
+        // Configurar botón de exportación
+        document.getElementById('exportButton').addEventListener('click', function() {
+            exportToCSV(confessionsArray);
         });
     });
+}
+
+// Función para exportar las confesiones a un archivo CSV
+function exportToCSV(confessions) {
+    const csvContent = "data:text/csv;charset=utf-8," 
+        + confessions.map(e => `${e.timestamp},"${e.confession.replace(/"/g, '""')}"`).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "confesiones.csv");
+    document.body.appendChild(link); // Requerido para Firefox
+
+    link.click(); // Este método inicia la descarga del archivo CSV
 }
