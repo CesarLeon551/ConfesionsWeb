@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confesiones Anónimas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Confesiones Anónimas</h1>
+        <img src="logo.png" alt="Logo" class="logo">
+    </header>
+    <main>
+        <form id="confessionForm">
+            <textarea id="confessionText" placeholder="Escribe tu confesión aquí..." required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+        <p id="statusMessage"></p>
+        <section id="adminSection" class="hidden">
+            <h2>Confesiones Recibidas</h2>
+            <ul id="confessionList"></ul>
+        </section>
+    </main>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
