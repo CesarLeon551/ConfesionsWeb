@@ -1,37 +1,39 @@
+// Importar los módulos de Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
 // Configuración de Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyBvPxUqYiVB6PI6zIrj3945p2x45KZxIK8",
-    authDomain: "web-confesions.firebaseapp.com",
-    projectId: "web-confesions",
-    storageBucket: "web-confesions.appspot.com",
-    messagingSenderId: "276709609056",
-    appId: "1:276709609056:web:a1625fdd29d28b8dd1fd05"
-  };
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_AUTH_DOMAIN",
+    projectId: "TU_PROJECT_ID",
+    storageBucket: "TU_STORAGE_BUCKET",
+    messagingSenderId: "TU_MESSAGING_SENDER_ID",
+    appId: "TU_APP_ID"
+};
 
 // Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Manejar el envío de confesiones
-document.getElementById('confessionForm').addEventListener('submit', function(event) {
+document.getElementById('confessionForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const confessionText = document.getElementById('confessionText').value;
 
     if (confessionText.trim()) {
-        // Guardar la confesión en Firestore
-        db.collection('confessions').add({
-            confession: confessionText,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        })
-        .then(function() {
+        try {
+            await addDoc(collection(db, 'confessions'), {
+                confession: confessionText,
+                timestamp: serverTimestamp()
+            });
             document.getElementById('statusMessage').textContent = "Confesión enviada con éxito.";
             document.getElementById('confessionText').value = ''; // Limpiar el formulario
-        })
-        .catch(function(error) {
+        } catch (error) {
             document.getElementById('statusMessage').textContent = "Error al enviar la confesión.";
             console.error("Error al enviar la confesión: ", error);
-        });
+        }
     }
 });
 
@@ -41,7 +43,8 @@ const isAdmin = true;  // Cambiar a false para ocultar la sección de administra
 if (isAdmin) {
     document.getElementById('adminSection').classList.remove('hidden');
 
-    db.collection('confessions').orderBy('timestamp', 'desc').onSnapshot(function(snapshot) {
+    const q = query(collection(db, 'confessions'), orderBy('timestamp', 'desc'));
+    onSnapshot(q, function(snapshot) {
         const confessionList = document.getElementById('confessionList');
         confessionList.innerHTML = ''; // Limpiar la lista
 
