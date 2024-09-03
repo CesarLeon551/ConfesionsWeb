@@ -4,12 +4,12 @@ import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, o
 
 // Configuración de Firebase
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID"
+  apiKey: "AIzaSyBvPxUqYiVB6PI6zIrj3945p2x45KZxIK8",
+  authDomain: "web-confesions.firebaseapp.com",
+  projectId: "web-confesions",
+  storageBucket: "web-confesions.appspot.com",
+  messagingSenderId: "276709609056",
+  appId: "1:276709609056:web:a1625fdd29d28b8dd1fd05"
 };
 
 // Inicializar Firebase
